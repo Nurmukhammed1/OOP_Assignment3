@@ -85,6 +85,26 @@ public class Main {
         ps.executeUpdate();
     }
 
+    public static void updateNumber(Connection connection) throws Exception
+    {
+        PreparedStatement ps = connection.prepareStatement("update contacts set phonenum = ? where name = ? and surname = ?");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter name of contact: ");
+        String enteredName = scanner.next();
+
+        System.out.println("Enter surname of contact: ");
+        String enteredSurname = scanner.next();
+
+        System.out.println("Enter new number: ");
+        String enteredNum = scanner.next();
+
+        ps.setString(1, enteredNum);
+        ps.setString(2, enteredName);
+        ps.setString(3, enteredSurname);
+        ps.executeUpdate();
+    }
+
     public static void main(String[] args)  throws Exception {
 
         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres" , "postgres" , "0202");
@@ -100,7 +120,8 @@ public class Main {
             System.out.println("2. Find an contact");
             System.out.println("3. Create contact");
             System.out.println("4. Delete contact");
-            System.out.println("5. Quit");
+            System.out.println("5. Update number of contact");
+            System.out.println("6. Quit");
 
             System.out.println("Enter your choice:");
             int choice = scanner.nextInt();
@@ -129,6 +150,10 @@ public class Main {
                 continue;
             }
             else if (choice == 5)
+            {
+                updateNumber(connection);
+            }
+            else if (choice == 6)
             {
                 break;
             }
